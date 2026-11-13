@@ -117,14 +117,15 @@ probarEjercicio() {
     codigo=$?
     tiempo=${tiempo/,/.}
 
-    if [ $codigo -eq 124 ] || [ $codigo -eq 137 ] || { [ $codigo -eq 0 ] && awk "BEGIN { exit !($tiempo > $limite) }"; }; then
+    # 124: llego al tope. 137: hubo que matarlo. 0: termino bien, pero tarde.
+    if [ $codigo -eq 124 ] || { { [ $codigo -eq 0 ] || [ $codigo -eq 137 ]; } && awk "BEGIN { exit !($tiempo > $limite) }"; }; then
       echo "  archivo $caso: ${ROJO}TIEMPO EXCEDIDO${FIN} (mas de $limite segundos)"
       echo "${ROJO}NO ACEPTADO${FIN}: la solucion es demasiado lenta. Revisar el orden pedido en el README."
       echo "Entrada del archivo: $entrada"
       return 1
     elif [ $codigo -ne 0 ]; then
       echo "  archivo $caso: ${ROJO}ERROR EN EJECUCION${FIN} (el programa se cayo, codigo $codigo)"
-      cat "$BUILD/$nombre.errores.txt"
+      grep -v '^timeout: ' "$BUILD/$nombre.errores.txt"
       echo "${ROJO}NO ACEPTADO${FIN}"
       echo "Entrada del archivo: $entrada"
       return 1
@@ -133,10 +134,14 @@ probarEjercicio() {
       mostrarArchivo "Entrada" "$entrada"
       mostrarArchivo "Salida esperada" "$esperado"
       mostrarArchivo "Tu salida" "$salida"
-      linea=$(diff <(normalizar "$esperado") <(normalizar "$salida") | head -1 | sed 's/[^0-9].*//')
-      echo "${NEGRITA}--- Primera diferencia: linea $linea de la salida ---${FIN}"
-      echo "  esperado: $(normalizar "$esperado" | sed -n "${linea}p")"
-      echo "  obtenido: $(normalizar "$salida" | sed -n "${linea}p")"
+      # Primera linea distinta, sin contar lineas vacias.
+      linea=$(paste -d '\001' <(normalizar "$esperado") <(normalizar "$salida") | awk -F '\001' '$1 != $2 { print NR; exit }')
+      if [ -n "$linea" ]; then
+        echo "${NEGRITA}--- Primera diferencia: linea $linea de la salida ---${FIN}"
+        echo "  esperado: $(normalizar "$esperado" | sed -n "${linea}p")"
+        echo "  obtenido: $(normalizar "$salida" | sed -n "${linea}p")"
+        echo "  (si falta un valor, la salida tiene menos lineas que la esperada, o mas)"
+      fi
       echo "${ROJO}NO ACEPTADO${FIN}"
       return 1
     fi
