@@ -52,16 +52,6 @@ origen[i]         // letra en la posición i (la primera es la 0)
 La recursión "pura" (sin guardar resultados) es exponencial y no pasa los casos
 medianos ni los grandes.
 
-## Pistas
-
-- Enfrenten las palabras en una estructura **bidimensional**: una palabra en
-  las filas y la otra en las columnas.
-- Piensen qué significa una celda: ¿cuántos cambios hacen falta para transformar
-  las primeras `i` letras de `origen` en las primeras `j` letras de `destino`?
-- ¿Cuánto cuesta transformar una palabra en la palabra vacía? ¿Y al revés?
-- **La tabla puede ser grande** (hasta 2001 x 2001). Créenla con `new`. Si la
-  declaran como variable local (`int tab[2001][2001]`), el programa se cae.
-
 ## Formato de entrada
 
 La primera línea tiene `P`, la cantidad de casos. Cada caso tiene dos líneas:
@@ -75,6 +65,10 @@ Límites (los de tamaños y largos son para **cada** caso):
 
 - `1 <= P <= 1.000`
 - `1 <= largo de cada palabra <= 2.000`
+
+> **Ojo con la memoria.** Un array grande declarado como variable local (por
+> ejemplo `int tab[2001][2001]`) no entra en la pila y el programa se cae. Los
+> arrays grandes se crean con `new`.
 
 ## Formato de salida
 

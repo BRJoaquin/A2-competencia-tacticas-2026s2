@@ -81,14 +81,6 @@ palabra.length()     // largo de la palabra
 No se pide un orden: el tablero es chico y hay que **probar los caminos**. Lo que
 sí se pide es que la búsqueda **corte** un camino apenas una letra no coincide.
 
-## Pistas
-
-- Prueben empezar desde **cada** celda del tablero.
-- Estando en una celda, y sabiendo qué letra de la palabra toca: ¿qué opciones
-  hay para la letra siguiente?
-- Si un camino no sirve, hay que **volver atrás** y probar otro. La celda que
-  usó el camino descartado tiene que quedar **libre** otra vez.
-
 ## Formato de entrada
 
 La primera línea tiene `P`, la cantidad de casos. Cada caso tiene:

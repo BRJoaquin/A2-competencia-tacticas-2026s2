@@ -54,15 +54,6 @@ El `main` está vacío. Pueden agregar todas las funciones que necesiten.
 
 Comparar todos los pares es `O(N²)` y no pasa los casos grandes.
 
-## Pista
-
-Piensen en **MergeSort**. Cuando se intercalan dos mitades ordenadas y se toma
-un elemento de la mitad derecha antes que uno de la izquierda, ¿con cuántos
-elementos de la mitad izquierda está "al revés"?
-
-En `helpers/MergeSort.cpp` hay un MergeSort implementado. Pueden leerlo para
-recordar cómo es, y escribir el suyo en `main.cpp`.
-
 ## Formato de entrada
 
 La primera línea tiene `P`, la cantidad de casos. Cada caso tiene dos líneas:

@@ -31,7 +31,6 @@ describe más abajo.
 El `main` está vacío. Pueden agregar todas las funciones que necesiten.
 
 - Una casa puede tener 0 pesos.
-- Se puede resolver con memoización o con tabulación.
 
 ## Orden pedido
 

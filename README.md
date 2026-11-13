@@ -54,8 +54,10 @@ Conclusión: conviene avisar cada ejercicio **apenas** queda aceptado.
 El código del grupo ganador se revisa antes de confirmar el resultado.
 
 **Las letras se leen solas.** Cada ejercicio tiene en su `README.md` el problema,
-el formato, los límites y ejemplos explicados. Los docentes no responden
-preguntas sobre cómo resolver un ejercicio. Si el script muestra
+el formato, los límites y ejemplos explicados. Si algo de una letra no se
+entiende, pueden preguntarle a un docente: se responden **dudas de letra**
+(qué se pide, el formato, un ejemplo). No se responden preguntas sobre cómo
+resolver un ejercicio, y las letras no traen pistas. Si el script muestra
 `RESPUESTA INCORRECTA`, comparen lo esperado con lo obtenido y vuelvan a leer la
 letra.
 

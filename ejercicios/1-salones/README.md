@@ -31,8 +31,6 @@ describe más abajo.
 El `main` está vacío. Pueden agregar todas las funciones que necesiten.
 
 - Los cursos **no vienen ordenados**.
-- Para ordenar un array de enteros pueden usar `mergeSort(arr, n)`, que ya está
-  implementado en `helpers/MergeSort.cpp` (hay que descomentar el `#include`).
 
 ## Orden pedido
 
