@@ -29,15 +29,15 @@ uso() {
   done
 }
 
-# Corre un comando con limite de tiempo (funciona en Linux, WSL y Mac).
-# Devuelve 124 si se paso del limite.
+# Corre un comando con un tope de tiempo (funciona en Linux, WSL y Mac).
+# Devuelve 124 si llego al tope.
 correrConLimite() {
   local segundos=$1
   shift
   if command -v timeout >/dev/null 2>&1; then
-    timeout "$segundos" "$@"
+    timeout -k 1 "$segundos" "$@"
   elif command -v gtimeout >/dev/null 2>&1; then
-    gtimeout "$segundos" "$@"
+    gtimeout -k 1 "$segundos" "$@"
   else
     perl -e 'alarm shift; exec @ARGV' "$segundos" "$@"
     local codigo=$?
@@ -87,7 +87,7 @@ probarEjercicio() {
 
   # 1) librerias prohibidas
   local usoProhibido
-  usoProhibido=$(grep -nE "^[[:space:]]*#[[:space:]]*include[[:space:]]*<($PROHIBIDOS)>" "$fuente")
+  usoProhibido=$(grep -nE "^[[:space:]]*#[[:space:]]*include[[:space:]]*[<\"]($PROHIBIDOS)[>\"]" "$fuente")
   if [ -n "$usoProhibido" ]; then
     echo "${ROJO}NO ACEPTADO: se usa una libreria prohibida en $fuente${FIN}"
     echo "$usoProhibido"
@@ -103,17 +103,21 @@ probarEjercicio() {
   fi
 
   # 3) casos de prueba
-  local total=0 entrada esperado caso codigo
+  local total=0 entrada esperado caso codigo tiempo linea
+  local TIMEFORMAT=%R
   for entrada in "$dir"/tests/*.in.txt; do
     [ -f "$entrada" ] || continue
     esperado=${entrada%.in.txt}.out.txt
     caso=$(basename "$entrada" .in.txt)
     total=$((total + 1))
 
-    correrConLimite "$limite" "$ejecutable" < "$entrada" > "$salida" 2> "$BUILD/$nombre.errores.txt"
+    # El tope es mayor que el limite: asi un programa que se cae (y tarda en
+    # cerrarse) se informa como ERROR EN EJECUCION y no como TIEMPO EXCEDIDO.
+    tiempo=$( { time correrConLimite $((limite + 3)) "$ejecutable" < "$entrada" > "$salida" 2> "$BUILD/$nombre.errores.txt"; } 2>&1 )
     codigo=$?
+    tiempo=${tiempo/,/.}
 
-    if [ $codigo -eq 124 ]; then
+    if [ $codigo -eq 124 ] || [ $codigo -eq 137 ] || { [ $codigo -eq 0 ] && awk "BEGIN { exit !($tiempo > $limite) }"; }; then
       echo "  archivo $caso: ${ROJO}TIEMPO EXCEDIDO${FIN} (mas de $limite segundos)"
       echo "${ROJO}NO ACEPTADO${FIN}: la solucion es demasiado lenta. Revisar el orden pedido en el README."
       echo "Entrada del archivo: $entrada"
@@ -129,6 +133,10 @@ probarEjercicio() {
       mostrarArchivo "Entrada" "$entrada"
       mostrarArchivo "Salida esperada" "$esperado"
       mostrarArchivo "Tu salida" "$salida"
+      linea=$(diff <(normalizar "$esperado") <(normalizar "$salida") | head -1 | sed 's/[^0-9].*//')
+      echo "${NEGRITA}--- Primera diferencia: linea $linea de la salida ---${FIN}"
+      echo "  esperado: $(normalizar "$esperado" | sed -n "${linea}p")"
+      echo "  obtenido: $(normalizar "$salida" | sed -n "${linea}p")"
       echo "${ROJO}NO ACEPTADO${FIN}"
       return 1
     fi
