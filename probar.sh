@@ -135,12 +135,12 @@ probarEjercicio() {
       mostrarArchivo "Salida esperada" "$esperado"
       mostrarArchivo "Tu salida" "$salida"
       # Primera linea distinta, sin contar lineas vacias.
-      linea=$(paste -d '\001' <(normalizar "$esperado") <(normalizar "$salida") | awk -F '\001' '$1 != $2 { print NR; exit }')
+      linea=$(paste <(normalizar "$esperado") <(normalizar "$salida") | awk -F '\t' '$1 != $2 { print NR; exit }')
       if [ -n "$linea" ]; then
         echo "${NEGRITA}--- Primera diferencia: linea $linea de la salida ---${FIN}"
         echo "  esperado: $(normalizar "$esperado" | sed -n "${linea}p")"
         echo "  obtenido: $(normalizar "$salida" | sed -n "${linea}p")"
-        echo "  (si falta un valor, la salida tiene menos lineas que la esperada, o mas)"
+        echo "  (un valor vacio significa que una salida tiene menos lineas que la otra)"
       fi
       echo "${ROJO}NO ACEPTADO${FIN}"
       return 1
