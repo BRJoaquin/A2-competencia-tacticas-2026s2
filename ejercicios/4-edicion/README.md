@@ -71,7 +71,7 @@ origen
 destino
 ```
 
-Límites (los de `N`, valores y largos son para **cada** caso):
+Límites (los de tamaños y largos son para **cada** caso):
 
 - `1 <= P <= 1.000`
 - `1 <= largo de cada palabra <= 2.000`

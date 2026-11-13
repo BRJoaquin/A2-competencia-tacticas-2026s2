@@ -105,7 +105,7 @@ palabra
 `F` es la cantidad de filas y `C` la cantidad de columnas. Cada fila es un texto
 de `C` letras, sin espacios.
 
-Límites (los de `N`, valores y largos son para **cada** caso):
+Límites (los de tamaños y largos son para **cada** caso):
 
 - `1 <= P <= 1.000`
 - `1 <= F, C <= 6`

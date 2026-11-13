@@ -11,7 +11,7 @@ Simulacro de concurso de programación sobre las tácticas del curso:
 - Los ejercicios se pueden hacer en cualquier orden. Lean los cinco antes de
   elegir: no están ordenados por dificultad.
 - Un ejercicio está resuelto **solo** si `./probar.sh` muestra `ACEPTADO`.
-  Eso significa que pasó **todos** los casos de prueba dentro del tiempo.
+  Eso significa que pasó **todos** los archivos de prueba dentro del tiempo.
 - No hay penalización por intentos fallidos. Prueben todas las veces que quieran.
 
 ### Si nadie llega a 3 ejercicios
@@ -93,7 +93,7 @@ Cada ejercicio está en una carpeta dentro de [`ejercicios/`](ejercicios):
 ejercicios/1-nombre/
 ├── README.md     la letra, el formato, el orden pedido y ejemplos
 ├── main.cpp      acá se programa (el main está vacío)
-└── tests/        casos de prueba (entrada .in.txt y salida esperada .out.txt)
+└── tests/        archivos de prueba (entrada .in.txt y salida esperada .out.txt)
 ```
 
 Igual que en el obligatorio, el programa **lee la entrada por `cin`** e
@@ -164,8 +164,8 @@ Cada ejercicio indica el **orden temporal pedido**. Los casos de prueba grandes
 están pensados para que una solución de peor orden no termine a tiempo
 (`TIEMPO EXCEDIDO`).
 
-- Si los casos chicos pasan y los grandes dan `TIEMPO EXCEDIDO`, el problema es
-  el orden.
+- Si los casos chicos pasan y los grandes dan `TIEMPO EXCEDIDO`, revisen el
+  orden de la solución. También puede ser un bug, como un ciclo que no termina.
 - Si los grandes dan `RESPUESTA INCORRECTA` o `ERROR EN EJECUCION`, es un bug:
   revisen el tipo de dato (`int` o `long long`), los índices y el tamaño de los
   arrays.

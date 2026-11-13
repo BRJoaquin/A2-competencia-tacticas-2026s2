@@ -114,34 +114,34 @@ probarEjercicio() {
     codigo=$?
 
     if [ $codigo -eq 124 ]; then
-      echo "  caso $caso: ${ROJO}TIEMPO EXCEDIDO${FIN} (mas de $limite segundos)"
+      echo "  archivo $caso: ${ROJO}TIEMPO EXCEDIDO${FIN} (mas de $limite segundos)"
       echo "${ROJO}NO ACEPTADO${FIN}: la solucion es demasiado lenta. Revisar el orden pedido en el README."
-      echo "Entrada del caso: $entrada"
+      echo "Entrada del archivo: $entrada"
       return 1
     elif [ $codigo -ne 0 ]; then
-      echo "  caso $caso: ${ROJO}ERROR EN EJECUCION${FIN} (el programa se cayo, codigo $codigo)"
+      echo "  archivo $caso: ${ROJO}ERROR EN EJECUCION${FIN} (el programa se cayo, codigo $codigo)"
       cat "$BUILD/$nombre.errores.txt"
       echo "${ROJO}NO ACEPTADO${FIN}"
-      echo "Entrada del caso: $entrada"
+      echo "Entrada del archivo: $entrada"
       return 1
     elif ! diff <(normalizar "$esperado") <(normalizar "$salida") >/dev/null; then
-      echo "  caso $caso: ${ROJO}RESPUESTA INCORRECTA${FIN}"
+      echo "  archivo $caso: ${ROJO}RESPUESTA INCORRECTA${FIN}"
       mostrarArchivo "Entrada" "$entrada"
       mostrarArchivo "Salida esperada" "$esperado"
       mostrarArchivo "Tu salida" "$salida"
       echo "${ROJO}NO ACEPTADO${FIN}"
       return 1
     fi
-    echo "  caso $caso: ${VERDE}OK${FIN}"
+    echo "  archivo $caso: ${VERDE}OK${FIN}"
   done
 
   if [ $total -eq 0 ]; then
-    echo "${ROJO}No hay casos de prueba en $dir/tests${FIN}"
+    echo "${ROJO}No hay archivos de prueba en $dir/tests${FIN}"
     return 2
   fi
 
   echo
-  echo "${VERDE}${NEGRITA}  ACEPTADO  ${FIN}${VERDE} ejercicio $nombre - $total/$total casos - $(date +%H:%M:%S)${FIN}"
+  echo "${VERDE}${NEGRITA}  ACEPTADO  ${FIN}${VERDE} ejercicio $nombre - $total/$total archivos - $(date +%H:%M:%S)${FIN}"
   return 0
 }
 
