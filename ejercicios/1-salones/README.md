@@ -53,8 +53,9 @@ fin_1 fin_2 ... fin_N
 La segunda línea tiene los inicios de los `N` cursos y la tercera tiene los
 fines, **en el mismo orden**: el curso `i` va de `inicio_i` a `fin_i`.
 
-Límites:
+Límites (los de `N`, valores y largos son para **cada** caso):
 
+- `1 <= P <= 1.000`
 - `1 <= N <= 200.000`
 - `0 <= inicio_i < fin_i <= 1.000.000.000`
 
@@ -96,7 +97,8 @@ Explicación:
   empieza el siguiente). Alcanza con un salón.
 - **Caso 3.** Los cursos son `[100,300]`, `[50,150]`, `[200,250]` y `[120,130]`.
   En el minuto 125 hay tres cursos a la vez: `[100,300]`, `[50,150]` y
-  `[120,130]`.
+  `[120,130]`. Nunca hay cuatro: `[200,250]` empieza cuando `[50,150]` y
+  `[120,130]` ya terminaron. Entonces 3 salones alcanzan.
 
 ## Cómo probarlo
 

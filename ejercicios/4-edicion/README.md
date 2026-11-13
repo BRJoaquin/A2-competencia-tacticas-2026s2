@@ -71,8 +71,9 @@ origen
 destino
 ```
 
-Límites:
+Límites (los de `N`, valores y largos son para **cada** caso):
 
+- `1 <= P <= 1.000`
 - `1 <= largo de cada palabra <= 2.000`
 
 ## Formato de salida
@@ -110,8 +111,10 @@ Explicación:
 - **Caso 2.** `kitten` → `sitten` (reemplazar `k` por `s`) → `sittin`
   (reemplazar `e` por `i`) → `sitting` (insertar `g` al final).
 - **Caso 3.** Las palabras son iguales.
-- **Caso 4.** `sol` y `luna` no comparten ninguna letra en una posición útil:
-  se reemplazan las tres letras y se inserta una.
+- **Caso 4.** `sol` → `lol` → `lul` → `lun` → `luna`: tres reemplazos y una
+  inserción. Las palabras comparten la `l`, pero no conviene aprovecharla: para
+  dejarla en su lugar hay que borrar `s` y `o` e insertar `u`, `n` y `a`, que
+  son 5 cambios.
 
 ## Cómo probarlo
 

@@ -4,8 +4,8 @@
 
 ## Problema
 
-Sos un ladrón planeando robar casas a lo largo de una calle. Hay `N` casas en
-fila, y la casa `i` tiene `plata[i]` pesos en efectivo.
+Sos un ladrón que planea robar casas a lo largo de una calle. Hay `N` casas en
+fila, y cada casa tiene una cantidad de pesos en efectivo.
 
 La única restricción es que **no podés robar dos casas adyacentes** en la misma
 noche: tienen las alarmas conectadas y se dispararían.
@@ -49,8 +49,9 @@ N
 plata_1 plata_2 ... plata_N
 ```
 
-Límites:
+Límites (los de `N`, valores y largos son para **cada** caso):
 
+- `1 <= P <= 1.000`
 - `1 <= N <= 50.000`
 - `0 <= plata_i <= 10.000`
 
@@ -87,10 +88,12 @@ Salida:
 
 Explicación:
 
-- **Caso 1.** Casas 0, 2 y 4: `2 + 9 + 1 = 12`.
-- **Caso 2.** Casas 0 y 3: `2 + 2 = 4`. Fíjense que **no** alcanza con elegir
+Las casas se numeran desde 1, igual que en el formato de entrada.
+
+- **Caso 1.** Casas 1, 3 y 5: `2 + 9 + 1 = 12`.
+- **Caso 2.** Casas 1 y 4: `2 + 2 = 4`. Fíjense que **no** alcanza con elegir
   "una sí, una no": a veces conviene saltearse dos casas.
-- **Caso 3.** Casas 0, 3 y 5: `5 + 100 + 5 = 110`.
+- **Caso 3.** Casas 1, 4 y 6: `5 + 100 + 5 = 110`.
 - **Caso 4.** Hay una sola casa.
 
 ## Cómo probarlo

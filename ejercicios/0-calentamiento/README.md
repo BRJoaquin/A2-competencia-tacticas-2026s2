@@ -5,7 +5,7 @@
 
 ## Problema
 
-Dado un array de `N` números enteros, devolver la suma de todos.
+Dado un array de `N` números enteros, imprimir la suma de todos.
 
 ## Qué hay que programar
 
@@ -26,7 +26,8 @@ El `main` está vacío. Pueden agregar todas las funciones que necesiten.
 La primera línea tiene `P`, la cantidad de casos. Cada caso tiene dos líneas:
 la primera con `N` y la segunda con los `N` números.
 
-- `1 <= N <= 200.000`
+- `1 <= P <= 1.000`
+- `1 <= N <= 200.000` (en cada caso)
 - `-1.000.000.000 <= numero <= 1.000.000.000` (por eso la suma necesita `long long`)
 
 ## Formato de salida
@@ -35,7 +36,9 @@ Una línea por caso, con la suma.
 
 ## Cómo leer la entrada
 
-Este es el esquema que sirve para **todos** los ejercicios de la competencia:
+Este es el código de lectura de **este** ejercicio. En todos los ejercicios se
+lee primero la cantidad de casos y después cada caso, pero lo que trae cada caso
+cambia: lean el **Formato de entrada** de cada letra.
 
 ```cpp
 int casos;

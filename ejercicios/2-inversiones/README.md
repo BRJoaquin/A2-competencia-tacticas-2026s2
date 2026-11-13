@@ -30,6 +30,9 @@ Por ejemplo, el array `2 4 1 3 5` tiene 3 inversiones:
 
 Dado un array, se quiere saber **cuántas inversiones tiene**.
 
+La historia es solo el contexto. Los números del array pueden ser cualquier
+entero entre 1 y 1.000.000.000, y se pueden repetir.
+
 ## Qué hay que programar
 
 En `main.cpp`, escribir el programa completo: **leer la entrada** (por `cin`),
@@ -69,8 +72,9 @@ N
 arr_1 arr_2 ... arr_N
 ```
 
-Límites:
+Límites (los de `N`, valores y largos son para **cada** caso):
 
+- `1 <= P <= 1.000`
 - `1 <= N <= 200.000`
 - `1 <= arr_i <= 1.000.000.000`
 

@@ -47,8 +47,8 @@ Conclusión: conviene avisar cada ejercicio **apenas** queda aceptado.
    librería estándar (`<vector>`, `<algorithm>`, `<list>`, `<queue>`, `<stack>`,
    `<map>`, `<set>`...). El script rechaza la entrega si los encuentra.
 7. **Sí se puede usar** todo lo que está en las carpetas [`adts/`](adts) y
-   [`helpers/`](helpers), además de `<iostream>`, `<string>`, `<climits>`,
-   `<cassert>` y arrays comunes.
+   [`helpers/`](helpers), además de `<iostream>`, `<string>`, `<limits>`,
+   `<climits>`, `<cassert>` y arrays comunes.
 8. No se modifican los casos de prueba ni `probar.sh`.
 
 El código del grupo ganador se revisa antes de confirmar el resultado.
@@ -124,13 +124,15 @@ Desde la raíz del repositorio:
 ./probar.sh todos    # prueba todos y muestra cuántos están resueltos
 ```
 
-El script compila, corre cada caso y se detiene en el primero que falla:
+Cada ejercicio tiene varios **archivos de prueba**, y cada archivo trae varios
+casos. El script compila, corre cada archivo y se detiene en el primero que
+falla:
 
 | Mensaje | Qué significa |
 |---|---|
-| `ACEPTADO` | Pasó todos los casos. El ejercicio está resuelto. |
+| `ACEPTADO` | Pasó todos los archivos de prueba. El ejercicio está resuelto. |
 | `RESPUESTA INCORRECTA` | La salida no es la esperada. Muestra la entrada, lo esperado y lo obtenido. |
-| `TIEMPO EXCEDIDO` | El programa tardó más de 2 segundos en un caso. Revisar el **orden pedido**. |
+| `TIEMPO EXCEDIDO` | El programa tardó más de 2 segundos en un archivo de prueba completo (con todos sus casos). Revisar el **orden pedido**. |
 | `ERROR EN EJECUCION` | El programa se cayó (índice fuera de rango, puntero nulo, recursión infinita...). |
 | `error de compilacion` | No compila. |
 | `libreria prohibida` | Se incluyó algo que no está permitido (regla 6). |
@@ -139,7 +141,7 @@ Para probar a mano con un caso propio:
 
 ```bash
 mkdir -p build
-g++ --std=c++11 ejercicios/1-nombre/main.cpp -o build/prueba.out
+g++ --std=c++11 -O2 ejercicios/1-nombre/main.cpp -o build/prueba.out
 ./build/prueba.out < ejercicios/1-nombre/tests/01-ejemplo.in.txt
 ```
 
@@ -160,8 +162,13 @@ avisar. El primer grupo verificado con 3 resueltos gana.
 
 Cada ejercicio indica el **orden temporal pedido**. Los casos de prueba grandes
 están pensados para que una solución de peor orden no termine a tiempo
-(`TIEMPO EXCEDIDO`). Si los casos chicos pasan y los grandes no, el problema es
-el orden, no un bug.
+(`TIEMPO EXCEDIDO`).
+
+- Si los casos chicos pasan y los grandes dan `TIEMPO EXCEDIDO`, el problema es
+  el orden.
+- Si los grandes dan `RESPUESTA INCORRECTA` o `ERROR EN EJECUCION`, es un bug:
+  revisen el tipo de dato (`int` o `long long`), los índices y el tamaño de los
+  arrays.
 
 ## Lo que ya está hecho
 

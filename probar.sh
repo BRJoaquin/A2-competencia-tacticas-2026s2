@@ -9,7 +9,7 @@
 
 cd "$(dirname "$0")" || exit 1
 
-LIMITE_POR_DEFECTO=2 # segundos por caso de prueba
+LIMITE_POR_DEFECTO=2 # segundos por archivo de prueba
 PROHIBIDOS='vector|algorithm|list|forward_list|deque|queue|stack|map|set|unordered_map|unordered_set|array|bits/stdc\+\+\.h'
 BUILD=./build
 

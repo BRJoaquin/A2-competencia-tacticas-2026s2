@@ -28,7 +28,9 @@ camino es el que marcan los números (1 es la primera letra, 2 la segunda...):
 tablero        camino de ABCCED
 
 A B C E        1 2 3 .        A → B → C
-S F C S        . . 4 .                ↓
+                                      ↓
+S F C S        . . 4 .                C
+                                      ↓
 A D E E        . 6 5 .            D ← E
 ```
 
@@ -68,6 +70,9 @@ Una forma simple de guardar el tablero es un array de `string`, uno por fila:
 string tablero[6];
 cin >> tablero[f];   // lee una fila completa
 tablero[f][c]        // letra de la fila f, columna c (empiezan en 0)
+
+string palabra;
+cin >> palabra;      // lee la palabra
 palabra.length()     // largo de la palabra
 ```
 
@@ -100,14 +105,16 @@ palabra
 `F` es la cantidad de filas y `C` la cantidad de columnas. Cada fila es un texto
 de `C` letras, sin espacios.
 
-Límites:
+Límites (los de `N`, valores y largos son para **cada** caso):
 
+- `1 <= P <= 1.000`
 - `1 <= F, C <= 6`
 - `1 <= largo de la palabra <= 12`
 
 ## Formato de salida
 
 Una línea por caso: `SI` si la palabra se puede formar, `NO` si no se puede.
+Las dos respuestas van en mayúsculas y sin tilde.
 
 ## Ejemplo
 
