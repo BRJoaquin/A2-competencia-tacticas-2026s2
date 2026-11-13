@@ -135,7 +135,7 @@ probarEjercicio() {
       mostrarArchivo "Salida esperada" "$esperado"
       mostrarArchivo "Tu salida" "$salida"
       # Primera linea distinta, sin contar lineas vacias.
-      linea=$(paste <(normalizar "$esperado") <(normalizar "$salida") | awk -F '\t' '$1 != $2 { print NR; exit }')
+      linea=$(paste <(normalizar "$esperado") <(normalizar "$salida") | awk -F '\t' '$1"" != $2"" { print NR; exit }')
       if [ -n "$linea" ]; then
         echo "${NEGRITA}--- Primera diferencia: linea $linea de la salida ---${FIN}"
         echo "  esperado: $(normalizar "$esperado" | sed -n "${linea}p")"
