@@ -66,9 +66,24 @@ Límites (los de tamaños y largos son para **cada** caso):
 - `1 <= P <= 1.000`
 - `1 <= largo de cada palabra <= 2.000`
 
-> **Ojo con la memoria.** Un array grande declarado como variable local (por
-> ejemplo `int tab[2001][2001]`) no entra en la pila y el programa se cae. Los
-> arrays grandes se crean con `new`.
+> **Ojo con la memoria.** Las variables locales de una función tienen poco
+> espacio: unos 8 MB en total. Una matriz de 2001 × 2001 enteros ocupa 16 MB.
+> Si la declaran como variable local, el programa se cae apenas arranca y el
+> script muestra `ERROR EN EJECUCION`:
+>
+> ```cpp
+> int tab[2001][2001];   // MAL: no entra, el programa se cae
+> ```
+>
+> Las matrices grandes se crean con `new`, que no tiene ese límite:
+>
+> ```cpp
+> int **tab = new int *[filas];
+> for (int i = 0; i < filas; i++)
+> {
+>     tab[i] = new int[columnas];
+> }
+> ```
 
 ## Formato de salida
 

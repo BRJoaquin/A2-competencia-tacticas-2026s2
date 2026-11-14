@@ -30,8 +30,8 @@ Por ejemplo, el array `2 4 1 3 5` tiene 3 inversiones:
 
 Dado un array, se quiere saber **cuántas inversiones tiene**.
 
-La historia es solo el contexto. Los números del array pueden ser cualquier
-entero entre 1 y 1.000.000.000, y se pueden repetir.
+El array es un ranking de `N` canciones: tiene los números del `1` al `N`, cada
+uno **exactamente una vez**, en algún orden. No hay números repetidos.
 
 ## Qué hay que programar
 
@@ -40,9 +40,6 @@ resolver cada caso e **imprimir la salida** (por `cout`), con el formato que se
 describe más abajo.
 
 El `main` está vacío. Pueden agregar todas las funciones que necesiten.
-
-- Puede haber números **repetidos**.
-- Dos elementos iguales **no** forman una inversión.
 
 > **Ojo con el tipo de dato.** Con `N = 200.000` puede haber cerca de
 > 20.000.000.000 inversiones. Ese número no entra en un `int`: usen `long long`
@@ -67,7 +64,7 @@ Límites (los de `N`, valores y largos son para **cada** caso):
 
 - `1 <= P <= 1.000`
 - `1 <= N <= 200.000`
-- `1 <= arr_i <= 1.000.000.000`
+- `1 <= arr_i <= N`, y no hay números repetidos
 
 ## Formato de salida
 
@@ -86,7 +83,7 @@ Entrada:
 4
 4 3 2 1
 3
-3 3 1
+3 1 2
 ```
 
 Salida:
@@ -105,8 +102,8 @@ Explicación:
 - **Caso 2.** El array está ordenado: no hay inversiones.
 - **Caso 3.** El array está totalmente al revés: todos los pares son
   inversiones. Con 4 elementos hay `4·3/2 = 6` pares.
-- **Caso 4.** Cada `3` forma una inversión con el `1`. Los dos `3` entre sí no
-  forman inversión porque son iguales.
+- **Caso 4.** El `3` está antes que el `1` y antes que el `2`: son 2
+  inversiones. El `1` y el `2` están en orden.
 
 ## Cómo probarlo
 

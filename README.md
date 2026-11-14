@@ -6,20 +6,16 @@ Simulacro de concurso de programación sobre las tácticas del curso:
 ## Cómo se gana
 
 - Hay **5 ejercicios**. Duración: **2 horas**.
-- Gana **el primer grupo que tenga 3 ejercicios ACEPTADOS**. En ese momento
-  termina la competencia.
+- Gana el grupo con **más ejercicios ACEPTADOS** al terminar las 2 horas.
+- Si hay empate en cantidad, gana el grupo con **menor tiempo acumulado**.
+- La competencia dura las 2 horas completas: nadie gana antes de tiempo.
 - Los ejercicios se pueden hacer en cualquier orden. Lean los cinco antes de
   elegir: no están ordenados por dificultad.
 - Un ejercicio está resuelto **solo** si `./probar.sh` muestra `ACEPTADO`.
   Eso significa que pasó **todos** los archivos de prueba dentro del tiempo.
 - No hay penalización por intentos fallidos. Prueben todas las veces que quieran.
 
-### Si nadie llega a 3 ejercicios
-
-Si pasan las 2 horas y ningún grupo tiene 3 ejercicios:
-
-1. Gana el grupo con **más ejercicios** aceptados.
-2. Si hay empate en cantidad, gana el grupo con **menor tiempo acumulado**.
+### El desempate
 
 El **tiempo acumulado** es la suma, para cada ejercicio aceptado, de los minutos
 que pasaron **desde el inicio de la competencia** hasta que el docente lo
@@ -72,17 +68,16 @@ cd <carpeta del repositorio>
 
 Después de esto, **apagar el wifi**.
 
-### 2. Comprobar que todo funciona (ejercicio 0)
+### 2. Comprobar que todo funciona
 
-El ejercicio 0 no cuenta. Sirve para comprobar que la computadora compila y corre
-las pruebas, y para practicar el formato de entrada y salida.
+Antes de programar, comprueben que la computadora compila y corre las pruebas:
 
 ```bash
-./probar.sh 0
+./probar.sh 1
 ```
 
-Tiene que mostrar `RESPUESTA INCORRECTA` (todavía no está resuelto). Resuelvan
-`ejercicios/0-calentamiento/main.cpp` y vuelvan a correrlo hasta ver `ACEPTADO`.
+Tiene que mostrar `RESPUESTA INCORRECTA` en el archivo `01-ejemplo`, porque el
+ejercicio todavía no está resuelto. Si muestra otro error, avisen a un docente.
 
 > Si aparece `permission denied`, correr `chmod +x probar.sh`.
 > En Windows hay que usar **WSL**. En Mac y Linux funciona directo en la terminal.
@@ -117,6 +112,22 @@ int main()
 }
 ```
 
+Lo que trae cada caso cambia en cada ejercicio: lean el **Formato de entrada**
+de cada letra. Por ejemplo, un caso con un número `N` y después `N` números se
+lee así:
+
+```cpp
+int n;
+cin >> n;
+int *arr = new int[n];
+for (int j = 0; j < n; j++)
+{
+    cin >> arr[j];
+}
+// ... resolver e imprimir ...
+delete[] arr;
+```
+
 ### 4. Probar
 
 Desde la raíz del repositorio:
@@ -134,7 +145,7 @@ falla:
 |---|---|
 | `ACEPTADO` | Pasó todos los archivos de prueba. El ejercicio está resuelto. |
 | `RESPUESTA INCORRECTA` | La salida no es la esperada. Muestra la entrada, lo esperado y lo obtenido. |
-| `TIEMPO EXCEDIDO` | El programa tardó más de 2 segundos en un archivo de prueba completo (con todos sus casos). Revisar el **orden pedido**. |
+| `TIEMPO EXCEDIDO` | El programa tardó más de 10 segundos en un archivo de prueba completo (con todos sus casos). Revisar el **orden pedido**. |
 | `ERROR EN EJECUCION` | El programa se cayó (índice fuera de rango, puntero nulo, recursión infinita...). |
 | `error de compilacion` | No compila. |
 | `libreria prohibida` | Se incluyó algo que no está permitido (regla 6). |
@@ -156,9 +167,12 @@ Cuando un ejercicio muestra `ACEPTADO`:
    **minuto** de la competencia.
 3. Seguir con otro ejercicio.
 
-El tiempo que cuenta es el del momento en que el docente lo verifica. Con el
-**tercer** `ACEPTADO`, correr `./probar.sh todos`, dejar el resumen en pantalla y
-avisar. El primer grupo verificado con 3 resueltos gana.
+El tiempo que cuenta es el del momento en que el docente lo verifica. Un
+ejercicio que queda `ACEPTADO` después de las 2 horas no cuenta.
+
+Al terminar las 2 horas, correr `./probar.sh todos` y dejar el resumen en
+pantalla. Gana el grupo con más ejercicios resueltos; si hay empate, el de menor
+tiempo acumulado.
 
 ## Sobre el orden
 
@@ -186,13 +200,13 @@ escritos (comentados) arriba de cada `main.cpp`: alcanza con descomentar.
 | [`adts/ListImp.cpp`](adts/ListImp.cpp) | `ListImp<T>` (lista) | `insert`, `insertAt`, `remove`, `removeAt`, `get`, `getSize`, `isEmpty`, `getIterator` |
 | [`adts/QueueImp.cpp`](adts/QueueImp.cpp) | `QueueImp<T>` (cola) | `enqueue`, `dequeue`, `next`, `isEmpty` |
 | [`adts/StackImp.cpp`](adts/StackImp.cpp) | `StackImp<T>` (pila) | `push`, `pop`, `top`, `isEmpty` |
+| [`adts/MinHeap.cpp`](adts/MinHeap.cpp) | `MinHeap<T>` (heap), `O(log N)` | `insertar`, `eliminarTope`, `tope`, `estaVacio`, `estaLleno`. Se crea con la capacidad y una función comparadora: `MinHeap<int> heap(100, comparar)` |
 | [`helpers/MergeSort.cpp`](helpers/MergeSort.cpp) | `mergeSort`, `O(N log N)` | `mergeSort(arr, n)` para enteros, `mergeSort(arr, n, criterio)` para cualquier tipo |
 
 ## Ejercicios
 
 | # | Ejercicio | Táctica |
 |---|---|---|
-| 0 | [Calentamiento](ejercicios/0-calentamiento) | (no cuenta) |
 | 1 | [Salones de Bedelía](ejercicios/1-salones) | Greedy |
 | 2 | [Ranking desordenado](ejercicios/2-inversiones) | Dividir y conquistar |
 | 3 | [¿Cuánto me llevo?](ejercicios/3-casas) | Programación dinámica |

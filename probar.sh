@@ -9,7 +9,7 @@
 
 cd "$(dirname "$0")" || exit 1
 
-LIMITE_POR_DEFECTO=2 # segundos por archivo de prueba
+LIMITE_POR_DEFECTO=10 # segundos por archivo de prueba
 PROHIBIDOS='vector|algorithm|list|forward_list|deque|queue|stack|map|set|unordered_map|unordered_set|array|bits/stdc\+\+\.h'
 BUILD=./build
 
@@ -170,7 +170,6 @@ if [ "$1" = "todos" ]; then
   for dir in ejercicios/*/; do
     nombre=$(basename "$dir")
     numero=${nombre%%-*}
-    [ "$numero" = "0" ] && continue # el calentamiento no cuenta
     cantidad=$((cantidad + 1))
     if probarEjercicio "$numero"; then
       resueltos=$((resueltos + 1))

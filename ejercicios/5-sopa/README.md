@@ -101,7 +101,7 @@ Límites (los de tamaños y largos son para **cada** caso):
 
 - `1 <= P <= 1.000`
 - `1 <= F, C <= 6`
-- `1 <= largo de la palabra <= 12`
+- `1 <= largo de la palabra <= 14`
 
 ## Formato de salida
 
