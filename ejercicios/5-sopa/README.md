@@ -99,7 +99,7 @@ de `C` letras, sin espacios.
 
 Límites (los de tamaños y largos son para **cada** caso):
 
-- `1 <= P <= 1.000`
+- `1 <= P <= 3.000`
 - `1 <= F, C <= 6`
 - `1 <= largo de la palabra <= 14`
 
