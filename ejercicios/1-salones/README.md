@@ -103,5 +103,5 @@ Explicación:
 Desde la raíz del repositorio:
 
 ```bash
-./probar.sh 1
+./probar.sh -e 1
 ```

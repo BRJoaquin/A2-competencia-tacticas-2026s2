@@ -181,5 +181,5 @@ Explicación (los cinco casos usan el mismo tablero):
 Desde la raíz del repositorio:
 
 ```bash
-./probar.sh 5
+./probar.sh -e 5
 ```

@@ -100,5 +100,5 @@ Las casas se numeran desde 1, igual que en el formato de entrada.
 Desde la raíz del repositorio:
 
 ```bash
-./probar.sh 3
+./probar.sh -e 3
 ```

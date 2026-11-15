@@ -1,20 +1,23 @@
-
-# Pila mas grande, para que una solucion recursiva profunda (memoizacion) no se
-# caiga. Si el sistema no deja, sigue con la pila normal.
-ulimit -s unlimited 2>/dev/null || ulimit -s "$(ulimit -H -s)" 2>/dev/null || true
 #!/bin/bash
 #
 # Compila y prueba un ejercicio de la competencia.
 #
-#   ./probar.sh 3        prueba el ejercicio 3
-#   ./probar.sh todos    prueba todos y muestra cuantos estan resueltos
+#   ./probar.sh                prueba todos y muestra cuantos estan resueltos
+#   ./probar.sh -e 3           prueba el ejercicio 3
+#   ./probar.sh -e 2,4         prueba los ejercicios 2 y 4
+#   ./probar.sh --grandes      corre tambien las pruebas grandes de tests-github/,
+#                              las que usa GitHub para el veredicto final
+#   ./probar.sh -e 3 --grandes las dos opciones juntas
 #
-# GitHub Actions lo corre con PRUEBAS_GITHUB=1: ademas de tests/, usa las
-# pruebas grandes de tests-github/.
+# GitHub Actions lo corre con PRUEBAS_GITHUB=1, que es lo mismo que --grandes.
 #
 # Un ejercicio esta resuelto solo si este script muestra ACEPTADO.
 
 cd "$(dirname "$0")" || exit 1
+
+# Pila mas grande, para que una solucion recursiva profunda (memoizacion) no se
+# caiga. Si el sistema no deja, sigue con la pila normal.
+ulimit -s unlimited 2>/dev/null || ulimit -s "$(ulimit -H -s)" 2>/dev/null || true
 
 LIMITE_POR_DEFECTO=10 # segundos por archivo de prueba
 PROHIBIDOS='vector|algorithm|list|forward_list|deque|queue|stack|map|set|unordered_map|unordered_set|array|bits/stdc\+\+\.h'
@@ -27,8 +30,11 @@ else
 fi
 
 uso() {
-  echo "Uso: ./probar.sh <numero de ejercicio>   (ejemplo: ./probar.sh 1)"
-  echo "     ./probar.sh todos"
+  echo "Uso: ./probar.sh                 prueba todos los ejercicios"
+  echo "     ./probar.sh -e 1            prueba el ejercicio 1"
+  echo "     ./probar.sh -e 2,4          prueba los ejercicios 2 y 4"
+  echo "     ./probar.sh --grandes       corre tambien las pruebas grandes de GitHub"
+  echo "     ./probar.sh -e 1 --grandes  las dos opciones juntas"
   echo
   echo "Ejercicios disponibles:"
   for dir in ejercicios/*/; do
@@ -96,16 +102,18 @@ probarEjercicio() {
   local usoProhibido
   usoProhibido=$(grep -nE "^[[:space:]]*#[[:space:]]*include[[:space:]]*[<\"]($PROHIBIDOS)[>\"]" "$fuente")
   if [ -n "$usoProhibido" ]; then
-    echo "${ROJO}NO ACEPTADO: se usa una libreria prohibida en $fuente${FIN}"
+    echo "${ROJO}LIBRERIA PROHIBIDA en $fuente${FIN}"
     echo "$usoProhibido"
     echo "Se puede usar lo que esta en las carpetas adts/ y helpers/."
+    echo "${ROJO}NO ACEPTADO${FIN}"
     return 1
   fi
 
   # 2) compilacion
   mkdir -p "$BUILD"
   if ! g++ --std=c++11 -O2 "$fuente" -o "$ejecutable"; then
-    echo "${ROJO}NO ACEPTADO: error de compilacion${FIN}"
+    echo "${ROJO}ERROR DE COMPILACION${FIN}"
+    echo "${ROJO}NO ACEPTADO${FIN}"
     return 1
   fi
 
@@ -167,32 +175,73 @@ probarEjercicio() {
   return 0
 }
 
-if [ $# -ne 1 ]; then
-  uso
-  exit 2
-fi
+# Opciones
+elegidos=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -e)
+      if [ -z "$2" ]; then
+        echo "${ROJO}Falta la lista de ejercicios despues de -e (ejemplo: -e 2,4).${FIN}"
+        uso
+        exit 2
+      fi
+      elegidos="$elegidos,$2"
+      shift
+      ;;
+    --grandes)
+      PRUEBAS_GITHUB=1
+      ;;
+    -h|--help)
+      uso
+      exit 0
+      ;;
+    *)
+      echo "${ROJO}No entiendo '$1'.${FIN}"
+      uso
+      exit 2
+      ;;
+  esac
+  shift
+done
 
-if [ "$1" = "todos" ]; then
-  resueltos=0
-  cantidad=0
-  resumen=""
+# Sin -e: todos los ejercicios.
+if [ -z "$elegidos" ]; then
   for dir in ejercicios/*/; do
     nombre=$(basename "$dir")
-    numero=${nombre%%-*}
-    cantidad=$((cantidad + 1))
-    if probarEjercicio "$numero"; then
-      resueltos=$((resueltos + 1))
-      resumen="$resumen  ${VERDE}ACEPTADO${FIN}     $nombre\n"
-    else
-      resumen="$resumen  ${ROJO}NO ACEPTADO${FIN}  $nombre\n"
-    fi
-    echo
+    elegidos="$elegidos,${nombre%%-*}"
   done
-  echo "${NEGRITA}== Resumen - $(date +%H:%M:%S) ==${FIN}"
-  printf "%b" "$resumen"
-  echo "${NEGRITA}Resueltos: $resueltos de $cantidad${FIN}"
-  exit 0
+fi
+numeros=$(echo "$elegidos" | tr ',' ' ')
+
+if [ "$PRUEBAS_GITHUB" = "1" ]; then
+  echo "${AMARILLO}Con las pruebas grandes de tests-github. El veredicto final es el de GitHub:"
+  echo "en una computadora lenta, una solucion correcta puede dar TIEMPO EXCEDIDO aca.${FIN}"
+  echo
 fi
 
-probarEjercicio "$1"
-exit $?
+resueltos=0
+cantidad=0
+resumen=""
+ultimo=0
+for numero in $numeros; do
+  cantidad=$((cantidad + 1))
+  probarEjercicio "$numero"
+  ultimo=$?
+  [ $ultimo -eq 2 ] && exit 2 # no existe el ejercicio
+  nombre=$(basename ejercicios/"$numero"-*/)
+  if [ $ultimo -eq 0 ]; then
+    resueltos=$((resueltos + 1))
+    resumen="$resumen  ${VERDE}ACEPTADO${FIN}     $nombre\n"
+  else
+    resumen="$resumen  ${ROJO}NO ACEPTADO${FIN}  $nombre\n"
+  fi
+  echo
+done
+
+# Con un solo ejercicio no hace falta el resumen.
+[ $cantidad -eq 1 ] && exit $ultimo
+
+echo "${NEGRITA}== Resumen - $(date +%H:%M:%S) ==${FIN}"
+printf "%b" "$resumen"
+echo "${NEGRITA}Resueltos: $resueltos de $cantidad${FIN}"
+[ $resueltos -eq $cantidad ]

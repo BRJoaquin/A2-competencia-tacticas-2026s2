@@ -46,6 +46,8 @@ Conclusión: conviene avisar cada ejercicio **apenas** queda aceptado.
   **no cuenta**. Pasa, por ejemplo, con una solución de peor orden que el pedido.
 - Conclusión: respeten el **orden pedido** de cada letra, aunque las pruebas
   locales pasen.
+- Pueden correr las pruebas grandes en su computadora con `--grandes` (ver el
+  paso 4). Es opcional y no cambia el minuto anotado.
 
 ## Reglas
 
@@ -99,7 +101,7 @@ Después de esto, **apagar el wifi**.
 Antes de programar, comprueben que la computadora compila y corre las pruebas:
 
 ```bash
-./probar.sh 1
+./probar.sh -e 1
 ```
 
 Tiene que mostrar `RESPUESTA INCORRECTA` en el archivo `01-ejemplo`, porque el
@@ -117,7 +119,7 @@ ejercicios/1-nombre/
 ├── README.md     la letra, el formato, el orden pedido y ejemplos
 ├── main.cpp      acá se programa (el main está casi vacío)
 ├── tests/        archivos de prueba (entrada .in.txt y salida esperada .out.txt)
-└── tests-github/ pruebas grandes, las corre solo GitHub (algunos ejercicios)
+└── tests-github/ pruebas grandes, para GitHub y para --grandes (ejercicios 1, 2 y 3)
 ```
 
 Igual que en el obligatorio, el programa **lee la entrada por `cin`** e
@@ -163,8 +165,9 @@ delete[] arr;
 Desde la raíz del repositorio:
 
 ```bash
-./probar.sh 1        # prueba el ejercicio 1
-./probar.sh todos    # prueba todos y muestra cuántos están resueltos
+./probar.sh           # prueba todos y muestra cuántos están resueltos
+./probar.sh -e 1      # prueba solo el ejercicio 1
+./probar.sh -e 2,4    # prueba los ejercicios 2 y 4
 ```
 
 Cada ejercicio tiene varios **archivos de prueba**, y cada archivo trae varios
@@ -177,8 +180,21 @@ falla:
 | `RESPUESTA INCORRECTA` | La salida no es la esperada. Muestra la entrada, lo esperado y lo obtenido. |
 | `TIEMPO EXCEDIDO` | El programa tardó más de 10 segundos en un archivo de prueba completo (con todos sus casos). Revisar el **orden pedido**. |
 | `ERROR EN EJECUCION` | El programa se cayó (índice fuera de rango, puntero nulo, recursión infinita...). |
-| `error de compilacion` | No compila. |
-| `libreria prohibida` | Se incluyó algo que no está permitido (regla 6). |
+| `ERROR DE COMPILACION` | No compila. |
+| `LIBRERIA PROHIBIDA` | Se incluyó algo que no está permitido (regla 6). |
+
+Para correr también las **pruebas grandes**, las que usa GitHub, agregar
+`--grandes`:
+
+```bash
+./probar.sh -e 1 --grandes
+./probar.sh --grandes
+```
+
+Sirve para saber antes de subir si la solución cumple el orden pedido. Es una
+ayuda: el veredicto final es el de GitHub. En una computadora lenta, una
+solución correcta puede dar `TIEMPO EXCEDIDO` con `--grandes` y GitHub aceptarla
+igual. Los ejercicios 4 y 5 no tienen pruebas grandes.
 
 Para probar a mano con un caso propio:
 
