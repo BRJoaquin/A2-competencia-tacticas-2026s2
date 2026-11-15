@@ -51,7 +51,7 @@ plata_1 plata_2 ... plata_N
 Límites (los de `N`, valores y largos son para **cada** caso):
 
 - `1 <= P <= 1.000`
-- `1 <= N <= 50.000`
+- `1 <= N <= 200.000`
 - `0 <= plata_i <= 10.000`
 
 Con estos límites el resultado siempre entra en un `int`.

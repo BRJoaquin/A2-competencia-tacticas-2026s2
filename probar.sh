@@ -1,3 +1,7 @@
+
+# Pila mas grande, para que una solucion recursiva profunda (memoizacion) no se
+# caiga. Si el sistema no deja, sigue con la pila normal.
+ulimit -s unlimited 2>/dev/null || ulimit -s "$(ulimit -H -s)" 2>/dev/null || true
 #!/bin/bash
 #
 # Compila y prueba un ejercicio de la competencia.
