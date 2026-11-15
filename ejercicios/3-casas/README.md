@@ -100,5 +100,6 @@ Las casas se numeran desde 1, igual que en el formato de entrada.
 Desde la raíz del repositorio:
 
 ```bash
+# Compila este ejercicio y lo corre contra sus archivos de prueba.
 ./probar.sh -e 3
 ```

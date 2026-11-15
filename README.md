@@ -90,7 +90,10 @@ copia en GitHub:
 4. Bajarlo a la computadora:
 
 ```bash
+# Baja el repositorio del grupo a una carpeta nueva de la computadora.
 git clone <URL del repositorio del grupo>
+
+# Entra a esa carpeta. Todos los comandos que siguen se corren desde ahí.
 cd <carpeta del repositorio>
 ```
 
@@ -101,13 +104,16 @@ Después de esto, **apagar el wifi**.
 Antes de programar, comprueben que la computadora compila y corre las pruebas:
 
 ```bash
+# Compila el ejercicio 1 y lo corre contra sus archivos de prueba.
+#   -e 1   elige el ejercicio 1
 ./probar.sh -e 1
 ```
 
 Tiene que mostrar `RESPUESTA INCORRECTA` en el archivo `01-ejemplo`, porque el
 ejercicio todavía no está resuelto. Si muestra otro error, avisen a un docente.
 
-> Si aparece `permission denied`, correr `chmod +x probar.sh`.
+> Si aparece `permission denied`, correr `chmod +x probar.sh`. Ese comando le
+> da permiso de ejecución al script.
 > En Windows hay que usar **WSL**. En Mac y Linux funciona directo en la terminal.
 
 ### 3. Resolver un ejercicio
@@ -165,9 +171,14 @@ delete[] arr;
 Desde la raíz del repositorio:
 
 ```bash
-./probar.sh           # prueba todos y muestra cuántos están resueltos
-./probar.sh -e 1      # prueba solo el ejercicio 1
-./probar.sh -e 2,4    # prueba los ejercicios 2 y 4
+# Sin opciones: prueba todos los ejercicios y muestra cuántos están resueltos.
+./probar.sh
+
+# Con -e: prueba solo el ejercicio que se indica (acá, el 1).
+./probar.sh -e 1
+
+# Con -e y varios números separados por coma: prueba esos ejercicios (acá, el 2 y el 4).
+./probar.sh -e 2,4
 ```
 
 Cada ejercicio tiene varios **archivos de prueba**, y cada archivo trae varios
@@ -187,7 +198,10 @@ Para correr también las **pruebas grandes**, las que usa GitHub, agregar
 `--grandes`:
 
 ```bash
+# Prueba el ejercicio 1 con las pruebas locales y también con las grandes.
 ./probar.sh -e 1 --grandes
+
+# Lo mismo para todos los ejercicios.
 ./probar.sh --grandes
 ```
 
@@ -233,8 +247,14 @@ Cuando el docente avisa que terminaron las 2 horas, **prender el wifi** y subir
 el código:
 
 ```bash
+# Marca todos los archivos cambiados para incluirlos en la entrega.
 git add -A
+
+# Guarda esos cambios en el repositorio de la computadora.
+#   -m "Entrega"   es el mensaje que describe el cambio
 git commit -m "Entrega"
+
+# Sube lo guardado a GitHub. Con esto empieza la corrida del veredicto.
 git push
 ```
 
