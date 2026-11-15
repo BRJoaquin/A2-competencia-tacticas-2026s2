@@ -199,10 +199,21 @@ igual. Los ejercicios 4 y 5 no tienen pruebas grandes.
 Para probar a mano con un caso propio:
 
 ```bash
+# Crea la carpeta build, donde va el programa compilado (si ya existe, no hace nada).
 mkdir -p build
+
+# Compila main.cpp y deja el programa en build/prueba.out.
+#   --std=c++11   usa la versión C++11 del lenguaje
+#   -O2           le pide al compilador que optimice: el programa corre más rápido
+#   -o archivo    nombre del programa que se genera
 g++ --std=c++11 -O2 ejercicios/1-nombre/main.cpp -o build/prueba.out
+
+# Corre el programa. El "<" hace que lea el archivo como si fuera el teclado (cin).
+# La salida (cout) se muestra en la terminal.
 ./build/prueba.out < ejercicios/1-nombre/tests/01-ejemplo.in.txt
 ```
+
+`probar.sh` compila con las mismas opciones.
 
 ### 5. Avisar
 
