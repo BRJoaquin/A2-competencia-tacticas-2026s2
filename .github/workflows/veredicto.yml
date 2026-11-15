@@ -1,0 +1,27 @@
+# Veredicto oficial: corre ./probar.sh todos en Ubuntu en cada push.
+# El resultado queda en la pestaña Actions, en el resumen de la corrida.
+name: Veredicto
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  veredicto:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probar todos los ejercicios
+        run: |
+          ./probar.sh todos > salida.txt 2>&1 || true
+          cat salida.txt
+          {
+            echo "## Veredicto"
+            echo
+            echo "Commit \`${GITHUB_SHA:0:7}\`, subido $(TZ=America/Montevideo git log -1 --format=%cd --date=format-local:'%H:%M:%S')."
+            echo
+            echo '```'
+            sed -n '/^== Resumen/,$p' salida.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
