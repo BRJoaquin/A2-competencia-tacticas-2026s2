@@ -11,8 +11,8 @@ Simulacro de concurso de programación sobre las tácticas del curso:
 - La competencia dura las 2 horas completas: nadie gana antes de tiempo.
 - Los ejercicios se pueden hacer en cualquier orden. Lean los cinco antes de
   elegir: no están ordenados por dificultad.
-- Un ejercicio está resuelto **solo** si `./probar.sh` muestra `ACEPTADO`.
-  Eso significa que pasó **todos** los archivos de prueba dentro del tiempo.
+- Un ejercicio está resuelto si `./probar.sh` muestra `ACEPTADO` **y** GitHub lo
+  confirma al final (ver [Las dos verificaciones](#las-dos-verificaciones)).
 - No hay penalización por intentos fallidos. Prueben todas las veces que quieran.
 
 ### El desempate
@@ -31,10 +31,28 @@ Ejemplo: dos grupos terminan con 2 ejercicios cada uno.
 Gana el grupo **A**, aunque el grupo B terminó su segundo ejercicio antes.
 Conclusión: conviene avisar cada ejercicio **apenas** queda aceptado.
 
+### Las dos verificaciones
+
+| | Cuándo | Qué pruebas corre | Para qué sirve |
+|---|---|---|---|
+| **Local**: `./probar.sh` | Durante las 2 horas, en la computadora del grupo | Las de la carpeta `tests/` | Fija el **minuto** de cada ejercicio |
+| **GitHub** | Al terminar, cuando el grupo sube su código | Las de `tests/` y las **pruebas grandes** de `tests-github/` | Da el **veredicto final** |
+
+- Las pruebas locales son chicas a propósito. Así una solución correcta pasa en
+  cualquier computadora, también en una lenta.
+- Las pruebas grandes controlan el **orden pedido**. GitHub las corre siempre en
+  la misma máquina, igual para todos los grupos.
+- Un ejercicio `ACEPTADO` en la computadora del grupo que GitHub **no** acepta
+  **no cuenta**. Pasa, por ejemplo, con una solución de peor orden que el pedido.
+- Conclusión: respeten el **orden pedido** de cada letra, aunque las pruebas
+  locales pasen.
+
 ## Reglas
 
 1. **Una sola computadora por grupo.**
-2. **Sin internet.** Ni buscador, ni documentación online, ni repositorios.
+2. **Sin internet durante las 2 horas.** Ni buscador, ni documentación online,
+   ni repositorios. Internet se usa solo para bajar el repositorio al inicio y
+   para subir el código al final.
 3. **Sin inteligencia artificial.** Ni chats, ni autocompletado con IA
    (Copilot, Cursor, etc. deben estar apagados).
 4. **Sin material.** Solo este repositorio.
@@ -45,7 +63,7 @@ Conclusión: conviene avisar cada ejercicio **apenas** queda aceptado.
 7. **Sí se puede usar** todo lo que está en las carpetas [`adts/`](adts) y
    [`helpers/`](helpers), además de `<iostream>`, `<string>`, `<limits>`,
    `<climits>`, `<cassert>` y arrays comunes.
-8. No se modifican los casos de prueba ni `probar.sh`.
+8. No se modifican los casos de prueba, `probar.sh` ni la carpeta `.github`.
 
 El código del grupo ganador se revisa antes de confirmar el resultado.
 
@@ -59,10 +77,18 @@ letra.
 
 ## Paso a paso
 
-### 1. Bajar el repositorio
+### 1. Crear el repositorio del grupo y bajarlo
+
+El repositorio del docente es una **plantilla** (template). Cada grupo crea su
+copia en GitHub:
+
+1. Abrir en el navegador la URL que muestra el docente.
+2. Botón verde **Use this template** → **Create a new repository**.
+3. Elegir un nombre, marcar **Private** y crear el repositorio.
+4. Bajarlo a la computadora:
 
 ```bash
-git clone <URL que muestra el docente>
+git clone <URL del repositorio del grupo>
 cd <carpeta del repositorio>
 ```
 
@@ -90,7 +116,8 @@ Cada ejercicio está en una carpeta dentro de [`ejercicios/`](ejercicios):
 ejercicios/1-nombre/
 ├── README.md     la letra, el formato, el orden pedido y ejemplos
 ├── main.cpp      acá se programa (el main está casi vacío)
-└── tests/        archivos de prueba (entrada .in.txt y salida esperada .out.txt)
+├── tests/        archivos de prueba (entrada .in.txt y salida esperada .out.txt)
+└── tests-github/ pruebas grandes, las corre solo GitHub (algunos ejercicios)
 ```
 
 Igual que en el obligatorio, el programa **lee la entrada por `cin`** e
@@ -146,7 +173,7 @@ falla:
 
 | Mensaje | Qué significa |
 |---|---|
-| `ACEPTADO` | Pasó todos los archivos de prueba. El ejercicio está resuelto. |
+| `ACEPTADO` | Pasó todos los archivos de prueba locales. Falta la confirmación de GitHub al final. |
 | `RESPUESTA INCORRECTA` | La salida no es la esperada. Muestra la entrada, lo esperado y lo obtenido. |
 | `TIEMPO EXCEDIDO` | El programa tardó más de 10 segundos en un archivo de prueba completo (con todos sus casos). Revisar el **orden pedido**. |
 | `ERROR EN EJECUCION` | El programa se cayó (índice fuera de rango, puntero nulo, recursión infinita...). |
@@ -173,15 +200,38 @@ Cuando un ejercicio muestra `ACEPTADO`:
 El tiempo que cuenta es el del momento en que el docente lo verifica. Un
 ejercicio que queda `ACEPTADO` después de las 2 horas no cuenta.
 
-Al terminar las 2 horas, correr `./probar.sh todos` y dejar el resumen en
-pantalla. Gana el grupo con más ejercicios resueltos; si hay empate, el de menor
-tiempo acumulado.
+### 6. Subir a GitHub al terminar
+
+Cuando el docente avisa que terminaron las 2 horas, **prender el wifi** y subir
+el código:
+
+```bash
+git add -A
+git commit -m "Entrega"
+git push
+```
+
+> Si `git commit` pide un nombre y un email, correr
+> `git config user.name "Nombre"` y `git config user.email "mail@ejemplo.com"`,
+> y repetir el `git commit`.
+
+Después, en la página del repositorio del grupo en GitHub:
+
+1. Abrir la pestaña **Actions**.
+2. Entrar a la corrida más nueva, de nombre **Veredicto**. Tarda cerca de un
+   minuto.
+3. El resumen muestra `ACEPTADO` o `NO ACEPTADO` para cada ejercicio. Mostrarlo
+   al docente.
+
+Ese resumen es el **veredicto final**. Cuentan los ejercicios que el docente
+anotó durante la competencia **y** que GitHub muestra como `ACEPTADO`. Gana el
+grupo con más ejercicios; si hay empate, el de menor tiempo acumulado.
 
 ## Sobre el orden
 
-Cada ejercicio indica el **orden temporal pedido**. Los casos de prueba grandes
-están pensados para que una solución de peor orden no termine a tiempo
-(`TIEMPO EXCEDIDO`).
+Cada ejercicio indica el **orden temporal pedido**. Las pruebas grandes que
+corre GitHub están pensadas para que una solución de peor orden no termine a
+tiempo (`TIEMPO EXCEDIDO`). Las pruebas locales no siempre lo detectan.
 
 - Si los casos chicos pasan y los grandes dan `TIEMPO EXCEDIDO`, revisen el
   orden de la solución. También puede ser un bug, como un ciclo que no termina.

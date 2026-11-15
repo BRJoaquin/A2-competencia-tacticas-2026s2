@@ -5,6 +5,9 @@
 #   ./probar.sh 3        prueba el ejercicio 3
 #   ./probar.sh todos    prueba todos y muestra cuantos estan resueltos
 #
+# GitHub Actions lo corre con PRUEBAS_GITHUB=1: ademas de tests/, usa las
+# pruebas grandes de tests-github/.
+#
 # Un ejercicio esta resuelto solo si este script muestra ACEPTADO.
 
 cd "$(dirname "$0")" || exit 1
@@ -105,7 +108,9 @@ probarEjercicio() {
   # 3) casos de prueba
   local total=0 entrada esperado caso codigo tiempo linea
   local TIMEFORMAT=%R
-  for entrada in "$dir"/tests/*.in.txt; do
+  local archivos=("$dir"/tests/*.in.txt)
+  [ "$PRUEBAS_GITHUB" = "1" ] && archivos+=("$dir"/tests-github/*.in.txt)
+  for entrada in "${archivos[@]}"; do
     [ -f "$entrada" ] || continue
     esperado=${entrada%.in.txt}.out.txt
     caso=$(basename "$entrada" .in.txt)
