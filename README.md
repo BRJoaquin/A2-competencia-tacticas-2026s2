@@ -89,7 +89,7 @@ Cada ejercicio está en una carpeta dentro de [`ejercicios/`](ejercicios):
 ```
 ejercicios/1-nombre/
 ├── README.md     la letra, el formato, el orden pedido y ejemplos
-├── main.cpp      acá se programa (el main está vacío)
+├── main.cpp      acá se programa (el main está casi vacío)
 └── tests/        archivos de prueba (entrada .in.txt y salida esperada .out.txt)
 ```
 
@@ -100,6 +100,9 @@ la primera línea trae la cantidad de casos, y después viene cada caso.
 ```cpp
 int main()
 {
+    ios::sync_with_stdio(false); // ya vienen en cada main.cpp:
+    cin.tie(nullptr);            // solo optimizan la lectura
+
     int casos;
     cin >> casos;
     for (int i = 0; i < casos; i++)

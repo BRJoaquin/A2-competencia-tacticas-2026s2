@@ -15,6 +15,11 @@ using namespace std;
 
 int main()
 {
+    // Estas dos lineas son solo para optimizar: hacen que cin y cout sean mas
+    // rapidos. No las borren. Con ellas, no mezclen cin/cout con scanf/printf.
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     // TODO
     return 0;
 }

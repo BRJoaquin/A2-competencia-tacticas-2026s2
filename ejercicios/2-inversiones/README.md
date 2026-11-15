@@ -39,7 +39,7 @@ En `main.cpp`, escribir el programa completo: **leer la entrada** (por `cin`),
 resolver cada caso e **imprimir la salida** (por `cout`), con el formato que se
 describe más abajo.
 
-El `main` está vacío. Pueden agregar todas las funciones que necesiten.
+El `main` solo trae dos líneas que hacen más rápida la lectura (no las borren). Pueden agregar todas las funciones que necesiten.
 
 > **Ojo con el tipo de dato.** Con `N = 200.000` puede haber cerca de
 > 20.000.000.000 inversiones. Ese número no entra en un `int`: usen `long long`

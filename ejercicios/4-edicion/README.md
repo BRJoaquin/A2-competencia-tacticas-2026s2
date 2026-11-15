@@ -32,7 +32,7 @@ En `main.cpp`, escribir el programa completo: **leer la entrada** (por `cin`),
 resolver cada caso e **imprimir la salida** (por `cout`), con el formato que se
 describe más abajo.
 
-El `main` está vacío. Pueden agregar todas las funciones que necesiten.
+El `main` solo trae dos líneas que hacen más rápida la lectura (no las borren). Pueden agregar todas las funciones que necesiten.
 
 - Las palabras tienen solo letras minúsculas (`a` a `z`) y nunca son vacías.
 
